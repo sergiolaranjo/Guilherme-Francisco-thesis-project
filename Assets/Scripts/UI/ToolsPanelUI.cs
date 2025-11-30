@@ -14,6 +14,8 @@ public class ToolsPanelUI : MonoBehaviour
     public event EventHandler OnSurgeryModeExit;
     public event EventHandler OnARModeEnter;
     public event EventHandler OnARModeExit;
+    public event EventHandler OnRoomModeEnter;
+    public event EventHandler OnRoomModeExit;
 
     [Header("UIs")]
     [SerializeField] private GameObject dicomImageUI;
@@ -22,6 +24,7 @@ public class ToolsPanelUI : MonoBehaviour
     [SerializeField] private GameObject settingsUI;
     [SerializeField] private GameObject surgeryToolsUI;
     [SerializeField] private GameObject arSettingsUI;
+    [SerializeField] private GameObject virtualRoomUI;
     public static ToolsPanelUI Instance { get; private set; }
 
     public enum Modes
@@ -37,7 +40,8 @@ public class ToolsPanelUI : MonoBehaviour
         Dicom,
         Settings,
         Surgery,
-        AR
+        AR,
+        Room
     }
 
     public enum Navigation {
@@ -57,6 +61,7 @@ public class ToolsPanelUI : MonoBehaviour
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button surgeryButton;
     [SerializeField] private Button arButton;
+    [SerializeField] private Button roomButton;
 
     private Modes currentMode = Modes.Default;
 
@@ -83,6 +88,8 @@ public class ToolsPanelUI : MonoBehaviour
             surgeryButton.onClick.AddListener(() => OnButtonClick(surgeryButton, Modes.Surgery));
         if (arButton != null)
             arButton.onClick.AddListener(() => OnButtonClick(arButton, Modes.AR));
+        if (roomButton != null)
+            roomButton.onClick.AddListener(() => OnButtonClick(roomButton, Modes.Room));
 
         XRIDefaultInputActions inputAction = InputActionsManager.Instance.InputActions;
         inputAction.XRILeftHand.MenuButton.performed += OnMenuButtonPerformed;
@@ -100,12 +107,14 @@ public class ToolsPanelUI : MonoBehaviour
         if (dicomImageUI.activeSelf ||
         measurementToolsUI.activeSelf ||
         (surgeryToolsUI != null && surgeryToolsUI.activeSelf) ||
-        (arSettingsUI != null && arSettingsUI.activeSelf))
+        (arSettingsUI != null && arSettingsUI.activeSelf) ||
+        (virtualRoomUI != null && virtualRoomUI.activeSelf))
         {
             dicomImageUI.SetActive(false);
             measurementToolsUI.SetActive(false);
             if (surgeryToolsUI != null) surgeryToolsUI.SetActive(false);
             if (arSettingsUI != null) arSettingsUI.SetActive(false);
+            if (virtualRoomUI != null) virtualRoomUI.SetActive(false);
             return;
         } else if (currentNavigation == Navigation.Outside) {
             gameObject.SetActive(!gameObject.activeSelf);
@@ -158,6 +167,16 @@ public class ToolsPanelUI : MonoBehaviour
             if (arSettingsUI != null) arSettingsUI.SetActive(false);
             if (previousMode == Modes.AR) {
                 OnARModeExit?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        if (mode == Modes.Room) {
+            if (virtualRoomUI != null) virtualRoomUI.SetActive(true);
+            OnRoomModeEnter?.Invoke(this, EventArgs.Empty);
+        } else {
+            if (virtualRoomUI != null) virtualRoomUI.SetActive(false);
+            if (previousMode == Modes.Room) {
+                OnRoomModeExit?.Invoke(this, EventArgs.Empty);
             }
         }
 
