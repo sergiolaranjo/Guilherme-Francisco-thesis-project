@@ -10,12 +10,15 @@ public class ToolsPanelUI : MonoBehaviour
 {
     public event EventHandler OnNavigateEvent;
     public event EventHandler OnModeChange;
+    public event EventHandler OnSurgeryModeEnter;
+    public event EventHandler OnSurgeryModeExit;
 
     [Header("UIs")]
     [SerializeField] private GameObject dicomImageUI;
 
-    [SerializeField] private GameObject measurementToolsUI; 
+    [SerializeField] private GameObject measurementToolsUI;
     [SerializeField] private GameObject settingsUI;
+    [SerializeField] private GameObject surgeryToolsUI;
     public static ToolsPanelUI Instance { get; private set; }
 
     public enum Modes
@@ -29,7 +32,8 @@ public class ToolsPanelUI : MonoBehaviour
         Clip,
         Navigate,
         Dicom,
-        Settings
+        Settings,
+        Surgery
     }
 
     public enum Navigation {
@@ -47,6 +51,7 @@ public class ToolsPanelUI : MonoBehaviour
     [SerializeField] private Button navigateButton;
     [SerializeField] private Button dicomButton;
     [SerializeField] private Button settingsButton;
+    [SerializeField] private Button surgeryButton;
 
     private Modes currentMode = Modes.Default;
 
@@ -65,11 +70,13 @@ public class ToolsPanelUI : MonoBehaviour
         scaleButton.onClick.AddListener(() => OnButtonClick(scaleButton, Modes.Scale));
         measureButton.onClick.AddListener(() => OnButtonClick(measureButton, Modes.Measure));
         tagButton.onClick.AddListener(() => OnButtonClick(tagButton, Modes.Tag));
-        clipButton.onClick.AddListener(() => OnButtonClick(clipButton, Modes.Clip)); 
+        clipButton.onClick.AddListener(() => OnButtonClick(clipButton, Modes.Clip));
         navigateButton.onClick.AddListener(() => OnButtonClick(navigateButton, Modes.Navigate));
         dicomButton.onClick.AddListener(() => OnButtonClick(dicomButton, Modes.Dicom));
         settingsButton.onClick.AddListener(() => OnButtonClick(settingsButton, Modes.Settings));
-        
+        if (surgeryButton != null)
+            surgeryButton.onClick.AddListener(() => OnButtonClick(surgeryButton, Modes.Surgery));
+
         XRIDefaultInputActions inputAction = InputActionsManager.Instance.InputActions;
         inputAction.XRILeftHand.MenuButton.performed += OnMenuButtonPerformed;
 
@@ -83,11 +90,13 @@ public class ToolsPanelUI : MonoBehaviour
             return;
         }
 
-        if (dicomImageUI.activeSelf || 
-        measurementToolsUI.activeSelf) 
+        if (dicomImageUI.activeSelf ||
+        measurementToolsUI.activeSelf ||
+        (surgeryToolsUI != null && surgeryToolsUI.activeSelf))
         {
             dicomImageUI.SetActive(false);
             measurementToolsUI.SetActive(false);
+            if (surgeryToolsUI != null) surgeryToolsUI.SetActive(false);
             return;
         } else if (currentNavigation == Navigation.Outside) {
             gameObject.SetActive(!gameObject.activeSelf);
@@ -96,16 +105,17 @@ public class ToolsPanelUI : MonoBehaviour
 
     private void OnButtonClick(Button clickedButton, Modes mode)
     {
+        Modes previousMode = currentMode;
         currentMode = mode;
         clickedButton.Select();
 
-        if(mode == Modes.Navigate) { 
+        if(mode == Modes.Navigate) {
             OnNavigateEvent?.Invoke(this, EventArgs.Empty);
         }
 
         if (mode == Modes.Measure) {
             measurementToolsUI.SetActive(true);
-        } else { 
+        } else {
             measurementToolsUI.SetActive(false);
         }
 
@@ -120,6 +130,16 @@ public class ToolsPanelUI : MonoBehaviour
             dicomImageUI.SetActive(true);
         } else {
             dicomImageUI.SetActive(false);
+        }
+
+        if (mode == Modes.Surgery) {
+            if (surgeryToolsUI != null) surgeryToolsUI.SetActive(true);
+            OnSurgeryModeEnter?.Invoke(this, EventArgs.Empty);
+        } else {
+            if (surgeryToolsUI != null) surgeryToolsUI.SetActive(false);
+            if (previousMode == Modes.Surgery) {
+                OnSurgeryModeExit?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         OnModeChange?.Invoke(this, EventArgs.Empty);
