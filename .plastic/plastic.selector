@@ -1,4 +1,0 @@
-repository "Thesis@guilherme_francisco@cloud"
-  path "/"
-    br "/main"
-    co "/main"
