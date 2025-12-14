@@ -2,7 +2,9 @@
 using Dicom;
 using Dicom.Imaging;
 #endif
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class DicomUtils

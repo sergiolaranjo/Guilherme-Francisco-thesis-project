@@ -14,7 +14,9 @@ public class NavigationManager : MonoBehaviour
     {
         // Get the EventSystem component
         eventSystem = GetComponent<EventSystem>();
-        inputActions = new XRIDefaultInputActions();
+
+        // Use shared InputActionsManager instance instead of creating duplicate
+        inputActions = InputActionsManager.Instance.InputActions;
 
         inputActions.XRIRightHand.Move.performed += OnRightHandMove;
     }
