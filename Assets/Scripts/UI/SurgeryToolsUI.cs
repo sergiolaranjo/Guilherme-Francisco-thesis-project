@@ -326,7 +326,7 @@ public class SurgeryToolsUI : MonoBehaviour
     private void OnAblationRadiusChanged(float value)
     {
         // Update ablation radius
-        AblationTool ablationTool = FindObjectOfType<AblationTool>();
+        AblationTool ablationTool = FindFirstObjectByType<AblationTool>();
         if (ablationTool != null)
         {
             ablationTool.SetAblationRadius(value / 1000f); // Convert mm to meters
@@ -336,7 +336,7 @@ public class SurgeryToolsUI : MonoBehaviour
     private void OnPowerLevelChanged(float value)
     {
         // Update power level
-        ElectrocauteryTool cauteryTool = FindObjectOfType<ElectrocauteryTool>();
+        ElectrocauteryTool cauteryTool = FindFirstObjectByType<ElectrocauteryTool>();
         if (cauteryTool != null)
         {
             cauteryTool.SetPowerLevel(value);
@@ -345,7 +345,7 @@ public class SurgeryToolsUI : MonoBehaviour
 
     private void OnAblationTypeChanged(int index)
     {
-        AblationTool ablationTool = FindObjectOfType<AblationTool>();
+        AblationTool ablationTool = FindFirstObjectByType<AblationTool>();
         if (ablationTool != null)
         {
             ablationTool.SetAblationType((AblationTool.AblationType)index);
@@ -354,7 +354,7 @@ public class SurgeryToolsUI : MonoBehaviour
 
     private void OnSutureTypeChanged(int index)
     {
-        SutureTool sutureTool = FindObjectOfType<SutureTool>();
+        SutureTool sutureTool = FindFirstObjectByType<SutureTool>();
         if (sutureTool != null)
         {
             sutureTool.SetMode((SutureTool.SutureMode)index);

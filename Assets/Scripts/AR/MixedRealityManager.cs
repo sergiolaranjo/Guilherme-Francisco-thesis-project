@@ -8,6 +8,7 @@
 
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.XR.Management;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System;
@@ -132,14 +133,56 @@ public class MixedRealityManager : MonoBehaviour
     /// </summary>
     private void DetectPlatform()
     {
-        string xrDeviceName = XRSettings.loadedDeviceName?.ToLower() ?? "";
+        string xrDeviceName = GetXRDeviceName().ToLower();
 
-        isMetaQuest = xrDeviceName.Contains("oculus") || xrDeviceName.Contains("meta");
+        isMetaQuest = xrDeviceName.Contains("oculus") || xrDeviceName.Contains("meta") || xrDeviceName.Contains("openxr");
         isHololens = xrDeviceName.Contains("hololens") || xrDeviceName.Contains("windowsmr");
         isMagicLeap = xrDeviceName.Contains("magicleap");
 
+        // Additional check for Meta Quest via subsystem
+        if (!isMetaQuest)
+        {
+            var xrDisplaySubsystems = new List<XRDisplaySubsystem>();
+            SubsystemManager.GetSubsystems(xrDisplaySubsystems);
+            foreach (var subsystem in xrDisplaySubsystems)
+            {
+                if (subsystem.running)
+                {
+                    isMetaQuest = true;
+                    break;
+                }
+            }
+        }
+
         Debug.Log($"Detected XR Platform: {xrDeviceName}");
         Debug.Log($"Meta Quest: {isMetaQuest}, HoloLens: {isHololens}, Magic Leap: {isMagicLeap}");
+    }
+
+    /// <summary>
+    /// Get XR device name using Unity 6 compatible API.
+    /// </summary>
+    private string GetXRDeviceName()
+    {
+        // Try XR Management first (Unity 6 preferred method)
+        var xrGeneralSettings = XRGeneralSettings.Instance;
+        if (xrGeneralSettings != null && xrGeneralSettings.Manager != null)
+        {
+            var activeLoader = xrGeneralSettings.Manager.activeLoader;
+            if (activeLoader != null)
+            {
+                return activeLoader.name ?? "Unknown";
+            }
+        }
+
+        // Fallback: Check input devices
+        var inputDevices = new List<InputDevice>();
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeadMounted, inputDevices);
+        if (inputDevices.Count > 0)
+        {
+            return inputDevices[0].name ?? "Unknown";
+        }
+
+        return "None";
     }
 
     /// <summary>

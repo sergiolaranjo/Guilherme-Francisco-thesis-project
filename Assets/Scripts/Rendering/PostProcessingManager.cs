@@ -146,7 +146,7 @@ namespace CardiacVR.Rendering
     {
         if (globalVolume == null)
         {
-            globalVolume = FindObjectOfType<Volume>();
+            globalVolume = FindFirstObjectByType<Volume>();
 
             if (globalVolume == null)
             {

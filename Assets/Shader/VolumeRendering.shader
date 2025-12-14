@@ -42,7 +42,12 @@ Shader "Custom/VolumeRendering"
 
     SubShader
     {
-        Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
+        Tags
+        {
+            "Queue" = "Transparent"
+            "RenderType" = "Transparent"
+            "RenderPipeline" = "UniversalPipeline"
+        }
         LOD 100
 
         Blend SrcAlpha OneMinusSrcAlpha
@@ -52,10 +57,14 @@ Shader "Custom/VolumeRendering"
 
         Pass
         {
+            Name "VolumeRendering"
+            Tags { "LightMode" = "UniversalForward" }
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma target 3.5
 
             #include "UnityCG.cginc"
 

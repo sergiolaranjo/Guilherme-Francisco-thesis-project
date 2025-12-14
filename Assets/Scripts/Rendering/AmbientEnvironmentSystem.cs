@@ -504,7 +504,7 @@ namespace CardiacVR.Rendering
         {
             if (postProcessVolume == null)
             {
-                postProcessVolume = FindObjectOfType<Volume>();
+                postProcessVolume = FindFirstObjectByType<Volume>();
             }
 
             if (postProcessVolume != null && postProcessVolume.profile != null)

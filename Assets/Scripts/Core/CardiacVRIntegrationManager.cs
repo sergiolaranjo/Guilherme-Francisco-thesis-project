@@ -158,7 +158,7 @@ namespace CardiacVR.Core
         private IEnumerator FindOrCreateSystems()
         {
             // Post Processing
-            postProcessing = FindObjectOfType<PostProcessingManager>();
+            postProcessing = FindFirstObjectByType<PostProcessingManager>();
             if (postProcessing == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("PostProcessingManager");
@@ -168,7 +168,7 @@ namespace CardiacVR.Core
             yield return null;
 
             // UI Theme
-            uiTheme = FindObjectOfType<ProfessionalUITheme>();
+            uiTheme = FindFirstObjectByType<ProfessionalUITheme>();
             if (uiTheme == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("ProfessionalUITheme");
@@ -178,7 +178,7 @@ namespace CardiacVR.Core
             yield return null;
 
             // Animation System
-            animationSystem = FindObjectOfType<SmoothAnimationSystem>();
+            animationSystem = FindFirstObjectByType<SmoothAnimationSystem>();
             if (animationSystem == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("SmoothAnimationSystem");
@@ -188,7 +188,7 @@ namespace CardiacVR.Core
             yield return null;
 
             // Segmented Mesh Renderer
-            meshRenderer = FindObjectOfType<SegmentedMeshRenderer>();
+            meshRenderer = FindFirstObjectByType<SegmentedMeshRenderer>();
             if (meshRenderer == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("SegmentedMeshRenderer");
@@ -198,7 +198,7 @@ namespace CardiacVR.Core
             yield return null;
 
             // Visual Effects
-            visualEffects = FindObjectOfType<VisualEffectsSystem>();
+            visualEffects = FindFirstObjectByType<VisualEffectsSystem>();
             if (visualEffects == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("VisualEffectsSystem");
@@ -208,7 +208,7 @@ namespace CardiacVR.Core
             yield return null;
 
             // Mesh Enhancement
-            meshEnhancement = FindObjectOfType<MeshEnhancementSystem>();
+            meshEnhancement = FindFirstObjectByType<MeshEnhancementSystem>();
             if (meshEnhancement == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("MeshEnhancementSystem");
@@ -218,7 +218,7 @@ namespace CardiacVR.Core
             yield return null;
 
             // Materials Library
-            materialsLibrary = FindObjectOfType<EnhancedMaterialsLibrary>();
+            materialsLibrary = FindFirstObjectByType<EnhancedMaterialsLibrary>();
             if (materialsLibrary == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("EnhancedMaterialsLibrary");
@@ -228,7 +228,7 @@ namespace CardiacVR.Core
             yield return null;
 
             // Lighting Setup
-            lightingSetup = FindObjectOfType<ProfessionalLightingSetup>();
+            lightingSetup = FindFirstObjectByType<ProfessionalLightingSetup>();
             if (lightingSetup == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("ProfessionalLightingSetup");
@@ -238,7 +238,7 @@ namespace CardiacVR.Core
             yield return null;
 
             // Environment System
-            environmentSystem = FindObjectOfType<AmbientEnvironmentSystem>();
+            environmentSystem = FindFirstObjectByType<AmbientEnvironmentSystem>();
             if (environmentSystem == null && createMissingSystems)
             {
                 GameObject obj = new GameObject("AmbientEnvironmentSystem");

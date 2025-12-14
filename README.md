@@ -1,7 +1,7 @@
 # CardiacVR - VR Platform for Cardiac Surgery Planning
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Unity-2022.3.49f1-blue?logo=unity" alt="Unity Version"/>
+  <img src="https://img.shields.io/badge/Unity-6000.0.2-blue?logo=unity" alt="Unity Version"/>
   <img src="https://img.shields.io/badge/Platform-Meta%20Quest-orange" alt="Platform"/>
   <img src="https://img.shields.io/badge/License-All%20Rights%20Reserved-red" alt="License"/>
 </p>
@@ -169,9 +169,10 @@ Adaptive quality system with automatic frame rate monitoring:
 ## Installation
 
 ### Prerequisites
-- **Unity 2022.3.49f1** (LTS)
-- **Universal Render Pipeline (URP)**
-- **XR Interaction Toolkit 2.5.x**
+- **Unity 6 (6000.0.2f1 or later)**
+- **Universal Render Pipeline (URP) 17.x**
+- **XR Interaction Toolkit 3.0.x**
+- **XR Plugin Management**
 - **TextMeshPro**
 
 ### Setup
@@ -180,7 +181,7 @@ Adaptive quality system with automatic frame rate monitoring:
    git clone https://github.com/sergiolaranjo/Guilherme-Francisco-thesis-project.git
    ```
 
-2. Open the project in Unity 2022.3.49f1
+2. Open the project in Unity 6 (6000.0.2 or later)
 
 3. Import required packages if prompted:
    - XR Plugin Management
@@ -229,10 +230,10 @@ CardiacVRIntegrationManager.Instance.SetQualityPreset(QualityPreset.High);
 
 ## Technology Stack
 
-- **Engine:** Unity 2022.3 LTS
-- **Rendering:** Universal Render Pipeline (URP)
+- **Engine:** Unity 6 (6000.0.2+)
+- **Rendering:** Universal Render Pipeline (URP) 17.x
 - **VR SDK:** OpenXR / Meta XR SDK
-- **Interaction:** XR Interaction Toolkit
+- **Interaction:** XR Interaction Toolkit 3.0
 - **DICOM:** fo-dicom library
 - **UI:** TextMeshPro
 
