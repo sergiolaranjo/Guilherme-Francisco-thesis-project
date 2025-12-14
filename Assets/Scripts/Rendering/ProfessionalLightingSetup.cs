@@ -717,7 +717,7 @@ namespace CardiacVR.Rendering
 
         public void RemoveHighlight(float fadeDuration = 0.3f)
         {
-            Light[] spotlights = FindObjectsOfType<Light>();
+            Light[] spotlights = FindObjectsByType<Light>(FindObjectsSortMode.None);
             foreach (var light in spotlights)
             {
                 if (light.gameObject.name == "Highlight Light")

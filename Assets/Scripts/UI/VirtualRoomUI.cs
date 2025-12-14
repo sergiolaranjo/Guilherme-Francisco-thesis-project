@@ -406,7 +406,7 @@ public class VirtualRoomUI : MonoBehaviour
         }
 
         // Apply to room lights
-        Light[] lights = FindObjectsOfType<Light>();
+        Light[] lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
         foreach (Light light in lights)
         {
             if (light.type == LightType.Point || light.type == LightType.Spot)
@@ -423,7 +423,7 @@ public class VirtualRoomUI : MonoBehaviour
 
     private void OnShadowsToggleChanged(bool enabled)
     {
-        Light[] lights = FindObjectsOfType<Light>();
+        Light[] lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
         foreach (Light light in lights)
         {
             light.shadows = enabled ? LightShadows.Soft : LightShadows.None;
