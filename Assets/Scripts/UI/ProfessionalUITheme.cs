@@ -5,11 +5,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-/// <summary>
-/// Professional UI Theme Manager for medical VR application.
-/// Provides elegant, modern styling for all UI elements.
-/// </summary>
-public class ProfessionalUITheme : MonoBehaviour
+namespace CardiacVR.UI
+{
+    /// <summary>
+    /// Professional UI Theme Manager for medical VR application.
+    /// Provides elegant, modern styling for all UI elements.
+    /// </summary>
+    public class ProfessionalUITheme : MonoBehaviour
 {
     public static ProfessionalUITheme Instance { get; private set; }
 
@@ -671,58 +673,59 @@ public class ProfessionalUITheme : MonoBehaviour
     #endregion
 }
 
-#region Supporting Types
+    #region Supporting Types
 
-public enum ElementType
-{
-    Panel,
-    Button,
-    Text,
-    Input,
-    Toggle,
-    Slider,
-    Card,
-    Header,
-    Custom
-}
-
-public enum TextStyle
-{
-    HeaderLarge,
-    HeaderMedium,
-    HeaderSmall,
-    BodyLarge,
-    BodyMedium,
-    BodySmall,
-    Caption
-}
-
-/// <summary>
-/// Component to mark UI elements for theming.
-/// </summary>
-public class ThemedElement : MonoBehaviour
-{
-    public ElementType ElementType = ElementType.Panel;
-    public TextStyle TextStyle = TextStyle.BodyMedium;
-    public bool IsPrimary = false;
-    public bool UseGlass = false;
-    public bool AutoRegister = true;
-
-    void Start()
+    public enum ElementType
     {
-        if (AutoRegister && ProfessionalUITheme.Instance != null)
+        Panel,
+        Button,
+        Text,
+        Input,
+        Toggle,
+        Slider,
+        Card,
+        Header,
+        Custom
+    }
+
+    public enum TextStyle
+    {
+        HeaderLarge,
+        HeaderMedium,
+        HeaderSmall,
+        BodyLarge,
+        BodyMedium,
+        BodySmall,
+        Caption
+    }
+
+    /// <summary>
+    /// Component to mark UI elements for theming.
+    /// </summary>
+    public class ThemedElement : MonoBehaviour
+    {
+        public ElementType ElementType = ElementType.Panel;
+        public TextStyle TextStyle = TextStyle.BodyMedium;
+        public bool IsPrimary = false;
+        public bool UseGlass = false;
+        public bool AutoRegister = true;
+
+        void Start()
         {
-            ProfessionalUITheme.Instance.RegisterElement(this);
+            if (AutoRegister && ProfessionalUITheme.Instance != null)
+            {
+                ProfessionalUITheme.Instance.RegisterElement(this);
+            }
+        }
+
+        void OnDestroy()
+        {
+            if (ProfessionalUITheme.Instance != null)
+            {
+                ProfessionalUITheme.Instance.UnregisterElement(this);
+            }
         }
     }
 
-    void OnDestroy()
-    {
-        if (ProfessionalUITheme.Instance != null)
-        {
-            ProfessionalUITheme.Instance.UnregisterElement(this);
-        }
-    }
+    #endregion
 }
-
-#endregion

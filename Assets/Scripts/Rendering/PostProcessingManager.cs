@@ -3,11 +3,13 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System;
 
-/// <summary>
-/// Professional post-processing manager for medical visualization.
-/// Provides smooth, elegant visual effects optimized for VR cardiac surgery planning.
-/// </summary>
-public class PostProcessingManager : MonoBehaviour
+namespace CardiacVR.Rendering
+{
+    /// <summary>
+    /// Professional post-processing manager for medical visualization.
+    /// Provides smooth, elegant visual effects optimized for VR cardiac surgery planning.
+    /// </summary>
+    public class PostProcessingManager : MonoBehaviour
 {
     public static PostProcessingManager Instance { get; private set; }
 
@@ -544,18 +546,19 @@ public class PostProcessingManager : MonoBehaviour
     }
 
     #endregion
-}
+    }
 
-public enum AntialiasingMode
-{
-    None,
-    FastApproximateAntialiasing,
-    SubpixelMorphologicalAntiAliasing
-}
+    public enum AntialiasingMode
+    {
+        None,
+        FastApproximateAntialiasing,
+        SubpixelMorphologicalAntiAliasing
+    }
 
-public enum AntialiasingQuality
-{
-    Low,
-    Medium,
-    High
+    public enum AntialiasingQuality
+    {
+        Low,
+        Medium,
+        High
+    }
 }
