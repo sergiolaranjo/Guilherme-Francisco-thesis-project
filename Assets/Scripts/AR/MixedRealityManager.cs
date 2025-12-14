@@ -8,7 +8,6 @@
 
 using UnityEngine;
 using UnityEngine.XR;
-using UnityEngine.XR.Management;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System;
@@ -163,15 +162,11 @@ public class MixedRealityManager : MonoBehaviour
     /// </summary>
     private string GetXRDeviceName()
     {
-        // Try XR Management first (Unity 6 preferred method)
-        var xrGeneralSettings = XRGeneralSettings.Instance;
-        if (xrGeneralSettings != null && xrGeneralSettings.Manager != null)
+        // Try XR Management first (if available)
+        string deviceName = TryGetXRDeviceFromManagement();
+        if (!string.IsNullOrEmpty(deviceName) && deviceName != "None")
         {
-            var activeLoader = xrGeneralSettings.Manager.activeLoader;
-            if (activeLoader != null)
-            {
-                return activeLoader.name ?? "Unknown";
-            }
+            return deviceName;
         }
 
         // Fallback: Check input devices
@@ -180,6 +175,49 @@ public class MixedRealityManager : MonoBehaviour
         if (inputDevices.Count > 0)
         {
             return inputDevices[0].name ?? "Unknown";
+        }
+
+        return "None";
+    }
+
+    /// <summary>
+    /// Try to get XR device name from XR Management (if package is installed).
+    /// </summary>
+    private string TryGetXRDeviceFromManagement()
+    {
+        // Use reflection to check for XR Management at runtime
+        try
+        {
+            var xrGeneralSettingsType = System.Type.GetType("UnityEngine.XR.Management.XRGeneralSettings, Unity.XR.Management");
+            if (xrGeneralSettingsType != null)
+            {
+                var instanceProperty = xrGeneralSettingsType.GetProperty("Instance",
+                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                if (instanceProperty != null)
+                {
+                    var instance = instanceProperty.GetValue(null);
+                    if (instance != null)
+                    {
+                        var managerProperty = xrGeneralSettingsType.GetProperty("Manager");
+                        var manager = managerProperty?.GetValue(instance);
+                        if (manager != null)
+                        {
+                            var activeLoaderProperty = manager.GetType().GetProperty("activeLoader");
+                            var activeLoader = activeLoaderProperty?.GetValue(manager);
+                            if (activeLoader != null)
+                            {
+                                var nameProperty = activeLoader.GetType().GetProperty("name");
+                                var name = nameProperty?.GetValue(activeLoader) as string;
+                                return name ?? "Unknown";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (System.Exception)
+        {
+            // XR Management not available or error accessing it
         }
 
         return "None";

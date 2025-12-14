@@ -1,6 +1,19 @@
-﻿using UnityEngine;
+// ============================================================================
+// CardiacVR - VR Platform for Cardiac Surgery Planning
+// Copyright (c) 2024 Sérgio Laranjo
+// Computational Cardiology, AI and Data Science for Health Lab
+// Nova Medical School, Universidade Nova de Lisboa
+// All rights reserved.
+// ============================================================================
+
+using System;
+using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+
+// Suppress Unity 6 URP deprecation warnings for legacy render pass methods
+// These methods are still functional but deprecated in favor of Render Graph API
+#pragma warning disable CS0672
 
 public class KawaseBlur : ScriptableRendererFeature
 {
@@ -131,3 +144,5 @@ public class KawaseBlur : ScriptableRendererFeature
         renderer.EnqueuePass(scriptablePass);
     }
 }
+
+#pragma warning restore CS0672
