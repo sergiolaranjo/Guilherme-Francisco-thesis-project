@@ -1,3 +1,11 @@
+// ============================================================================
+// CardiacVR - VR Platform for Cardiac Surgery Planning
+// Copyright (c) 2024 Sérgio Laranjo
+// Computational Cardiology, AI and Data Science for Health Lab
+// Nova Medical School, Universidade Nova de Lisboa
+// All rights reserved.
+// ============================================================================
+
 using UnityEngine;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
