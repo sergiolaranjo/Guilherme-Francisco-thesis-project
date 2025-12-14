@@ -41,9 +41,9 @@ namespace GK {
                 return;
             } 
 
-            if (ToolsPanelUI.Instance.GetMode() != ToolsPanelUI.Modes.Measure || 
-                MeasurementToolsUI.Instance.GetMeasurementTypes() != MeasurementToolsUI.MeasurementTypes.Volume 
-                && MeasurementManager.Instance.GetCurrentVolumeMeasurementMethod() != MeasurementManager.VolumeMeasurementMethods.Sphere)
+            if (ToolsPanelUI.Instance.GetMode() != ToolsPanelUI.Modes.Measure ||
+                MeasurementToolsUI.Instance.GetMeasurementTypes() != MeasurementToolsUI.MeasurementTypes.Volume ||
+                MeasurementManager.Instance.GetCurrentVolumeMeasurementMethod() != MeasurementManager.VolumeMeasurementMethods.Sphere)
             {
                 return;
             }

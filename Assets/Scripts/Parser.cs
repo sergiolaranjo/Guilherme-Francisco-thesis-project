@@ -32,43 +32,41 @@ public class Parser{
 
 	//Function responsible for extracting color/alpha associated to isovalues
 	public void ParseTransferFunction(string fileFolder){
-		System.IO.StreamReader file = 
-			new System.IO.StreamReader(fileFolder);
-
-		string line;
-
 		transferPoints = new List<TransferControlPoint>();
 
-		while((line = file.ReadLine()) != null)
+		using (System.IO.StreamReader file = new System.IO.StreamReader(fileFolder))
 		{
-			if (!line.Equals ("Color Isovalue")) {
+			string line;
 
-				float[] color = new float[4];
+			while((line = file.ReadLine()) != null)
+			{
+				if (!line.Equals ("Color Isovalue")) {
 
-				//Extract color field
-				for (int i = 0; i < 4; i++) {
-					int index = line.IndexOf (",");
-					string factorS = line.Substring (0, index);
-					float factor;
-					float.TryParse (factorS, out factor);
+					float[] color = new float[4];
 
-					color [i] = factor;
-					line = line.Substring (index + 2);
+					//Extract color field
+					for (int i = 0; i < 4; i++) {
+						int index = line.IndexOf (",");
+						string factorS = line.Substring (0, index);
+						float factor;
+						float.TryParse (factorS, out factor);
+
+						color [i] = factor;
+						line = line.Substring (index + 2);
+					}
+
+					// Extract Isovalue field
+					string isovalueS = line;
+					int isovalue;
+					int.TryParse (isovalueS, out isovalue);
+
+					//Create color variable and associate it to isovalue
+					Color c = new Color(color[0], color[1], color[2], color[3]);
+					TransferControlPoint tc = new TransferControlPoint (c, isovalue);
+					transferPoints.Add(tc);
 				}
-
-				// Extract Isovalue field 
-				string isovalueS = line;
-				int isovalue;
-				int.TryParse (isovalueS, out isovalue);
-
-				//Create color variable and associate it to isovalue
-				Color c = new Color(color[0], color[1], color[2], color[3]);
-				TransferControlPoint tc = new TransferControlPoint (c, isovalue);
-				transferPoints.Add(tc);
 			}
-
 		}
-
 	}
 
 	//Contruct transfer function with gradient to be used for coloring the 3D volume in the Loader Script

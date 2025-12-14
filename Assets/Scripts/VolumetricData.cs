@@ -21,7 +21,14 @@ public class VolumetricData : MonoBehaviour
     private void ApplySlicingEffect(Plane slicingPlane)
     {
         // Access the material of the volumetric data GameObject
-        Material volumetricMaterial = volumetricData.GetComponent<Renderer>().material;
+        Renderer renderer = volumetricData.GetComponent<Renderer>();
+        if (renderer == null)
+        {
+            Debug.LogWarning("VolumetricData: No Renderer component found on volumetricData");
+            return;
+        }
+
+        Material volumetricMaterial = renderer.material;
 
         // Set the slicing plane as a shader property
         volumetricMaterial.SetVector("_SlicingPlane", new Vector4(slicingPlane.normal.x, slicingPlane.normal.y, slicingPlane.normal.z, slicingPlane.distance));

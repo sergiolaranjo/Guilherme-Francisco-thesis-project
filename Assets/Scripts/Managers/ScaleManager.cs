@@ -7,7 +7,7 @@ public class ScaleManager : MonoBehaviour
 {   
     public static ScaleManager Instance { get; private set; }
 
-    [SerializeField] private float originalScale = 1/1000f;
+    [SerializeField] private float originalScale = 0.001f;
     [SerializeField] private GameObject model3D;
 
     public float previousScale;

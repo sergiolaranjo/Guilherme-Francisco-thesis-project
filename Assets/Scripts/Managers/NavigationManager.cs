@@ -43,11 +43,11 @@ public class NavigationManager : MonoBehaviour
         {
             if (inputVector.x > 0)
             {
-                return MoveDirection.Left;
+                return MoveDirection.Right;
             }
             else
             {
-                return MoveDirection.Right;
+                return MoveDirection.Left;
             }
         }
         else

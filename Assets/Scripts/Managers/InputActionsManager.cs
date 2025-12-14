@@ -46,6 +46,13 @@ public class InputActionsManager : MonoBehaviour
 
     private void OnDisable()
     {
+        // Unsubscribe from events first
+        InputActions.XRILeftHand.Activate.performed -= OnActivatePerformed;
+        InputActions.XRILeftHand.PrimaryButton.performed -= OnPrimaryButtonPerformed;
+        InputActions.XRILeftHand.SecondaryButton.performed -= OnSecondaryButtonPerformed;
+        InputActions.XRILeftHand.MenuButton.performed -= OnMenuButtonPerformed;
+        InputActions.XRIRightHand.Move.performed -= OnRightHandMovedPerformed;
+
         // Left
         InputActions.XRILeftHand.PrimaryButton.Disable();
         InputActions.XRILeftHand.SecondaryButton.Disable();
