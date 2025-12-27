@@ -1,3 +1,11 @@
+// ============================================================================
+// CardiacVR - VR Platform for Cardiac Surgery Planning
+// Copyright (c) 2024 Sérgio Laranjo
+// Computational Cardiology, AI and Data Science for Health Lab
+// Nova Medical School, Universidade Nova de Lisboa
+// All rights reserved.
+// ============================================================================
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -129,9 +137,10 @@ public class CurvedLineRenderer : MonoBehaviour
 			Vector3[] smoothedPoints = LineSmoother.SmoothLine( linePositions, lineSegmentSize );
 
 			//set line settings
-			line.SetVertexCount( smoothedPoints.Length );
+			line.positionCount = smoothedPoints.Length;
 			line.SetPositions( smoothedPoints );
-            line.SetWidth(lineWidth, lineWidth);
+            line.startWidth = lineWidth;
+            line.endWidth = lineWidth;
     		line.material = material;
 
 			lineLength = CalculateLineLength(smoothedPoints);

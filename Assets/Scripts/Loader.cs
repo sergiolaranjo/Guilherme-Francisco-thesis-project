@@ -92,13 +92,18 @@ public class Loader : MonoBehaviour {
 	private void LoadRAWFile()
 	{
 		Debug.Log ("Opening file "+path+filename+extension);
-		FileStream file = new FileStream(path+filename+extension, FileMode.Open);
-		Debug.Log ("File length = "+file.Length+" bytes, Data size = "+size[0]*size[1]*size[2]+" points -> "+file.Length/(size[0]*size[1]*size[2])+" byte(s) per point");
 
-		BinaryReader reader = new BinaryReader(file);
-		byte[] buffer = new byte[size[0] * size[1] * size[2]]; // assumes 8-bit data
-		reader.Read(buffer, 0, sizeof(byte) * buffer.Length);
-		reader.Close();
+		byte[] buffer;
+		using (FileStream file = new FileStream(path+filename+extension, FileMode.Open))
+		{
+			Debug.Log ("File length = "+file.Length+" bytes, Data size = "+size[0]*size[1]*size[2]+" points -> "+file.Length/(size[0]*size[1]*size[2])+" byte(s) per point");
+
+			using (BinaryReader reader = new BinaryReader(file))
+			{
+				buffer = new byte[size[0] * size[1] * size[2]]; // assumes 8-bit data
+				reader.Read(buffer, 0, sizeof(byte) * buffer.Length);
+			}
+		}
 
 		volumeColors = new Color[buffer.Length];
 		Color color = Color.black;
@@ -107,7 +112,6 @@ public class Loader : MonoBehaviour {
 			color.a = (float)buffer[i] / byte.MaxValue; //scale the scalar values to [0, 1]
 			volumeColors[i] = color;
 		}
-
 	}
 
 	private void GenerateVolumeTexture()

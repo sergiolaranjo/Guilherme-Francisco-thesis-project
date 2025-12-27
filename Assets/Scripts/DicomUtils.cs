@@ -2,7 +2,9 @@
 using Dicom;
 using Dicom.Imaging;
 #endif
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class DicomUtils
@@ -20,13 +22,13 @@ public class DicomUtils
     private void GetTexture3D(string dicomFolder) {
         Texture3D texture = Resources.Load<Texture3D>(filename);
 
-        Debug.Log("Texture size:" + "(" + texture.width + texture.depth + texture.height + ")" );
-        
         if (texture != null)
         {
+            Debug.Log("Texture size:" + "(" + texture.width + texture.depth + texture.height + ")" );
             texture3D = texture;
             return;
         } else {
+            Debug.LogWarning("Texture not found: " + filename);
             #if UNITY_WSA
             CreateTexture(dicomFolder);
             AssetDatabase.CreateAsset (texture3D, savePath + filename + ".asset");
